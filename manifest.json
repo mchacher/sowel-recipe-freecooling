@@ -2,7 +2,7 @@
   "id": "freecooling",
   "type": "recipe",
   "name": "Freecooling",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Close all shutters before sunrise — sleep with fresh air without being woken by daylight",
   "icon": "Moon",
   "repo": "mchacher/sowel-recipe-freecooling",

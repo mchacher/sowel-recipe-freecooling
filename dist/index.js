@@ -116,12 +116,29 @@ export function createRecipe() {
                     triggerTimer = null;
                 }
                 const rootAgg = ctx.zoneAggregator.getByZoneId(ROOT_ZONE_ID);
-                const sunrise = rootAgg?.sunrise;
-                if (!sunrise) {
+                const sunriseRaw = rootAgg?.sunrise;
+                if (!sunriseRaw) {
                     ctx.logger.warn({}, "Sunrise data not available — will retry on sunlight.changed");
                     return;
                 }
-                const sunriseMs = new Date(sunrise).getTime();
+                // Sunrise can be an ISO timestamp ("2026-04-12T06:58:00Z") or a
+                // time string ("06:58"). Parse both formats into today's Date.
+                let sunriseDate;
+                if (sunriseRaw.includes("T") || sunriseRaw.length > 10) {
+                    // ISO timestamp
+                    sunriseDate = new Date(sunriseRaw);
+                }
+                else {
+                    // HH:MM or HH:MM:SS time string → convert to today's date
+                    const parts = sunriseRaw.split(":").map(Number);
+                    sunriseDate = new Date();
+                    sunriseDate.setHours(parts[0] ?? 0, parts[1] ?? 0, parts[2] ?? 0, 0);
+                }
+                const sunriseMs = sunriseDate.getTime();
+                if (isNaN(sunriseMs)) {
+                    ctx.logger.warn({ sunriseRaw }, "Invalid sunrise value — will retry on sunlight.changed");
+                    return;
+                }
                 const triggerMs = sunriseMs - offsetMinutes * 60 * 1000;
                 const now = Date.now();
                 let delay = triggerMs - now;
@@ -135,7 +152,7 @@ export function createRecipe() {
                     // Don't reschedule here — wait for sunlight.changed to get tomorrow's sunrise
                 }, delay);
                 const triggerTime = new Date(now + delay);
-                ctx.logger.debug({ sunrise, triggerTime: triggerTime.toISOString(), delayMs: delay }, "Freecooling trigger scheduled");
+                ctx.logger.debug({ sunriseRaw, triggerTime: triggerTime.toISOString(), delayMs: delay }, "Freecooling trigger scheduled");
             }
             // ── Initialize ──
             scheduleTrigger();
