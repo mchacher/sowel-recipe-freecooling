@@ -7,11 +7,18 @@
   "icon": "Moon",
   "repo": "mchacher/sowel-recipe-freecooling",
   "author": "mchacher",
-  "tags": ["shutters", "sunrise", "sleep", "freecooling", "automation"],
+  "tags": [
+    "shutters",
+    "sunrise",
+    "sleep",
+    "freecooling",
+    "automation"
+  ],
   "i18n": {
     "fr": {
       "name": "Freecooling",
       "description": "Ferme automatiquement les volets avant le lever du soleil — dormez fenêtre ouverte sans être réveillé par le jour."
     }
-  }
+  },
+  "sowelVersion": ">=1.1.0"
 }
