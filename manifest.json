@@ -1,0 +1,17 @@
+{
+  "id": "freecooling",
+  "type": "recipe",
+  "name": "Freecooling",
+  "version": "1.0.0",
+  "description": "Close all shutters before sunrise — sleep with fresh air without being woken by daylight",
+  "icon": "Moon",
+  "repo": "mchacher/sowel-recipe-freecooling",
+  "author": "mchacher",
+  "tags": ["shutters", "sunrise", "sleep", "freecooling", "automation"],
+  "i18n": {
+    "fr": {
+      "name": "Freecooling",
+      "description": "Ferme automatiquement les volets avant le lever du soleil — dormez fenêtre ouverte sans être réveillé par le jour."
+    }
+  }
+}
