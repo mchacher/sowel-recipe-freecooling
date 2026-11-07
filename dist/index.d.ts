@@ -81,10 +81,6 @@ interface RecipeContext {
         getByIdWithDetails(id: string): EquipmentWithDetails | null;
         getAllWithDetails(): EquipmentWithDetails[];
         getByZone(zoneId: string): Equipment[];
-        executeOrder(equipmentId: string, alias: string, value: unknown): Promise<{
-            success: boolean;
-            error?: string;
-        }>;
     };
     zoneManager: {
         getAll(): Zone[];
@@ -106,6 +102,10 @@ interface RecipeContext {
         clear(): void;
     };
     log: (message: string, level?: "info" | "warn" | "error") => void;
+    dispatchOrder(equipmentId: string, alias: string, value: unknown): Promise<{
+        success: boolean;
+        error?: string;
+    }>;
 }
 export declare function createRecipe(): RecipeDefinition;
 export {};

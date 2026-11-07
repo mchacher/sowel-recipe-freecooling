@@ -1,6 +1,6 @@
 {
   "name": "sowel-recipe-freecooling",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sowel recipe: Freecooling — close shutters before sunrise",
   "type": "module",
   "main": "dist/index.js",
