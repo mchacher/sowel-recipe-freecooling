@@ -57,7 +57,6 @@ interface RecipeContext {
     getByIdWithDetails(id: string): EquipmentWithDetails | null;
     getAllWithDetails(): EquipmentWithDetails[];
     getByZone(zoneId: string): Equipment[];
-    executeOrder(equipmentId: string, alias: string, value: unknown): Promise<{ success: boolean; error?: string }>;
   };
   zoneManager: {
     getAll(): Zone[];
@@ -74,6 +73,9 @@ interface RecipeContext {
   };
   state: { get(key: string): unknown | null; set(key: string, value: unknown): void; delete(key: string): void; clear(): void };
   log: (message: string, level?: "info" | "warn" | "error") => void;
+  // Spec 101 — dispatches an order attributed to this recipe instance, so the
+  // activity feed names the recipe as its source.
+  dispatchOrder(equipmentId: string, alias: string, value: unknown): Promise<{ success: boolean; error?: string }>;
 }
 
 // ============================================================
@@ -188,7 +190,7 @@ export function createRecipe(): RecipeDefinition {
           const currentPos = typeof posBinding?.value === "number" ? posBinding.value : "?";
 
           try {
-            await ctx.equipmentManager.executeOrder(shutter.id, "position", 0);
+            await ctx.dispatchOrder(shutter.id, "position", 0);
             ctx.log(`${shutter.name} fermé (était à ${currentPos}%)`);
           } catch (err: unknown) {
             const msg = err instanceof Error ? err.message : String(err);

@@ -100,7 +100,7 @@ export function createRecipe() {
                     const posBinding = shutter.dataBindings.find((b) => b.category === "shutter_position");
                     const currentPos = typeof posBinding?.value === "number" ? posBinding.value : "?";
                     try {
-                        await ctx.equipmentManager.executeOrder(shutter.id, "position", 0);
+                        await ctx.dispatchOrder(shutter.id, "position", 0);
                         ctx.log(`${shutter.name} fermé (était à ${currentPos}%)`);
                     }
                     catch (err) {
